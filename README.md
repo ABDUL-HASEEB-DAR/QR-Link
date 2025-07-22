@@ -1,7 +1,7 @@
 # QRify
 
 ## 📁 Folder Structure
-project-root/  
+Qrify/  
 ├── QRify-backend/  
 └── QRify-frontend/
 
