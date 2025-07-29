@@ -2,6 +2,6 @@
 
 ## 📁 Folder Structure
 QR-Link/  
-├── QR-Link-backend/  
-└── QR-Link-frontend/
+├── qr-link-backend/  
+└── qr-link-frontend/
 

@@ -1,5 +1,5 @@
 {
-  "name": "qrify-backend",
+  "name": "qr-link-backend",
   "version": "1.0.0",
   "description": "QR code generator backend",
   "main": "index.js",
