@@ -1,7 +1,7 @@
-# QRify
+# QR-Link
 
 ## 📁 Folder Structure
-Qrify/  
-├── QRify-backend/  
-└── QRify-frontend/
+QR-Link/  
+├── QR-Link-backend/  
+└── QR-Link-frontend/
 
