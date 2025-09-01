@@ -1,8 +1,8 @@
+import cors from "cors";
 import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
 import express from "express";
-import connectDb from "./models/mongodb.js";
-import { User, Admin, QrData } from "./models/mergeModels.js";
+import checkJWT from "./supportFunctions/checkJWT.js";
+import connectDb from "./supportFunctions/mongodb.js";
 import {
   createUser,
   deleteUser,
@@ -27,7 +27,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.port || 5000; // define the port number
+// Enable CORS for all routes
+app.use(
+  cors()
+  //   {
+  //   origin: "http://localhost:3000", // Replace with your frontend URL
+  //   methods: ["GET", "POST", "PUT", "DELETE"],
+  // }
+);
 
 // load environment variables.
 dotenv.config();
@@ -40,16 +47,18 @@ app.get("/", (req, res) => {
 }); // Define routes
 app.post("/api/userLogin", userLogin); // user login
 app.post("/api/createUser", createUser); // create a new user
-app.delete("/api/deleteUser", deleteUser); // delete a user
-app.put("/api/updateUser", updateUser); // update user data
+app.delete("/api/deleteUser", checkJWT, deleteUser); // delete a user
+app.put("/api/updateUser", checkJWT, updateUser); // update user data
 app.post("/api/adminLogin", adminLogin); // admin login
 app.post("/api/createAdmin", createAdmin); // create a new admin
-app.delete("/api/deleteAdmin", deleteAdmin); // delete an admin
-app.put("/api/updateAdmin", updateAdmin); // update admin data
+app.delete("/api/deleteAdmin", checkJWT, deleteAdmin); // delete an admin
+app.put("/api/updateAdmin", checkJWT, updateAdmin); // update admin data
 app.post("/api/createQrData", createQrData); // create a new QR code data
 app.get("/api/getQrData", getQrData); // fetch all QR data for a user
 app.delete("/api/deleteQrData", deleteQrData); // delete QR code data by id
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(process.env.port || 4000, () => {
+  console.log(
+    `Server is running at http://localhost:${process.env.port || 4000}`
+  );
 });

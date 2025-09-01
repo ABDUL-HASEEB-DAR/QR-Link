@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { User } from "../models/mergeModels.js";
 
@@ -15,9 +16,18 @@ const userLogin = async (req, res) => {
     if (!isMatch) {
       return res.status(401).send("Invalid credentials");
     }
+
+    // Generate JWT
+    const token = jwt.sign(
+      { id: user._id, email: user.email }, // payload
+      process.env.JWT_SECRET, // secret key
+      { expiresIn: "1h" } // expiration time
+    );
+
     res.status(200).json({
       message: "Login successful",
       user: { id: user._id, username: user.username, email: user.email },
+      token,
     });
   } catch (error) {
     console.error("Error logging in user:", error);
@@ -87,7 +97,6 @@ const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
-    const updateUser = {};
     const updates = {};
     if (username) updates.username = username;
     if (email) updates.email = email;
